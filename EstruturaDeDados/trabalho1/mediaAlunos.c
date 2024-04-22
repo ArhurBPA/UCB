@@ -2,18 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_ALUNOS 100
-#define MAX_NOME 50
-#define MAX_NOTAS 10
-
 typedef struct
 {
-    char nome[MAX_NOME];
-    float notas[MAX_NOTAS];
-    int num_notas;
-} Aluno;
+    char nome[50];
+    float notas[10];
+    int quant_notas;
+} Pessoa;
 
-const char *determinar_situacao(float media)
+const char *situacao(float media)
 {
     if (media >= 7.0)
     {
@@ -25,7 +21,7 @@ const char *determinar_situacao(float media)
     }
 }
 
-// Função para calcular a média usando apenas os dois últimos números das notas
+
 float calcular_media(float nota1, float nota2)
 {
     float media = (((nota1) * 10 + (nota2) * 10) / 2) / 10;
@@ -35,37 +31,42 @@ float calcular_media(float nota1, float nota2)
 int main()
 {
     FILE *entrada = fopen("/workspaces/UCB/EstruturaDeDados/trabalho1/DadosEntrada.csv", "r");
-    FILE *saida = fopen("/workspaces/UCB/EstruturaDeDados/trabalho1/SituacaoFinal.csv", "w");
+    FILE *saida = fopen("/workspaces/UCB/EstruturaDeDados/trabalho1/NotaFinal.csv", "w");
 
-    if (entrada == NULL || saida == NULL)
+    if (entrada == NULL)
     {
-        printf("Erro ao abrir arquivos.\n");
+        printf("Erro ao abrir DadosEntrada.csv.\n");
+        return 1;
+    }
+    if (saida == NULL)
+    {
+        printf("Erro ao abrir NotaFinal.csv.\n");
         return 1;
     }
 
-    Aluno alunos[MAX_ALUNOS];
+    Pessoa alunos[100];
     int num_alunos = 0;
 
-    // Ler dados dos alunos e calcular médias
-    char linha[MAX_NOME + MAX_NOTAS * 5]; // Tamanho máximo de uma linha
-    while (fgets(linha, sizeof(linha), entrada) != NULL)
+    
+    char lista[50 + 10 * 5]; 
+    while (fgets(lista, sizeof(lista), entrada) != NULL)
     {
-        char *token = strtok(linha, ",");
-        strncpy(alunos[num_alunos].nome, token, MAX_NOME);
-        int num_notas = 0;
+        char *token = strtok(lista, ",");
+        strncpy(alunos[num_alunos].nome, token, 50);
+        int quant_notas = 0;
         float soma_notas = 0.0;
-        while ((token = strtok(NULL, ",")) != NULL && num_notas < MAX_NOTAS)
+        while ((token = strtok(NULL, ",")) != NULL && quant_notas < 10)
         {
             float nota = atof(token);
-            alunos[num_alunos].notas[num_notas] = nota;
+            alunos[num_alunos].notas[quant_notas] = nota;
             soma_notas += nota;
-            num_notas++;
+            quant_notas++;
         }
-        alunos[num_alunos].num_notas = num_notas;
+        alunos[num_alunos].quant_notas = quant_notas;
 
-        // Usando apenas os dois últimos números das notas
-        float media = calcular_media(alunos[num_alunos].notas[num_notas - 2], alunos[num_alunos].notas[num_notas - 1]);
-        fprintf(saida, "%s,%.2f,%s\n", alunos[num_alunos].nome, media, determinar_situacao(media));
+        
+        float media = calcular_media(alunos[num_alunos].notas[quant_notas - 2], alunos[num_alunos].notas[quant_notas - 1]);
+        fprintf(saida, "%s,%.2f,%s\n", alunos[num_alunos].nome, media, situacao(media));
         num_alunos++;
     }
 
