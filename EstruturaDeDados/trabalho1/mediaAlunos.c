@@ -21,7 +21,6 @@ const char *situacao(float media)
     }
 }
 
-
 float calcular_media(float nota1, float nota2)
 {
     float media = (((nota1) * 10 + (nota2) * 10) / 2) / 10;
@@ -47,8 +46,7 @@ int main()
     Pessoa alunos[100];
     int num_alunos = 0;
 
-    
-    char lista[50 + 10 * 5]; 
+    char lista[50 + 10 * 5];
     while (fgets(lista, sizeof(lista), entrada) != NULL)
     {
         char *token = strtok(lista, ",");
@@ -64,7 +62,6 @@ int main()
         }
         alunos[num_alunos].quant_notas = quant_notas;
 
-        
         float media = calcular_media(alunos[num_alunos].notas[quant_notas - 2], alunos[num_alunos].notas[quant_notas - 1]);
         fprintf(saida, "%s,%.2f,%s\n", alunos[num_alunos].nome, media, situacao(media));
         num_alunos++;
