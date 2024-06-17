@@ -1,0 +1,23 @@
+ .data
+ numb: .word 7 
+ numc: .word -4 
+ numd: .word 19 
+ nume: .word -10 
+
+ .text
+
+ lw $t1, numb 
+ lw $t2, numc 
+ lw $t3, numd 
+ lw $t4, nume 
+
+ addi $t5 , $t4, 2 
+
+ sub $t6, $t4, $t5 
+ add $t6, $t6, $t3 
+ add $t6, $t6, $t2 
+ add $t0, $t6, $t1 
+
+ li $v0, 1
+ move $a0, $t0
+ syscall 
