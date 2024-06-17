@@ -48,7 +48,7 @@ int is_function(const char *str, int i) {
 }
 
 float getValor(char *Str) {
-    Pilha pilha = { NULL, 0 }; // Inicializa a pilha
+    Pilha pilha = { NULL, 0 };
     char *token = strtok(Str, " ");
     while (token != NULL) {
         if (isdigit(token[0])) {
@@ -68,17 +68,16 @@ float getValor(char *Str) {
         }
         token = strtok(NULL, " ");
     }
-    return (float)pop(&pilha); // Retorna o resultado da expressão
+    return (float)pop(&pilha);
 }
 
 char *getFormaInFixa(char *str) {
-    // Lógica para converter para forma infixa
-    return str; // Retorna a string convertida
+    return str;
 }
 
 char *removeParenteses(char *inFixa) {
     if (inFixa != NULL && strlen(inFixa) > 0 && inFixa[0] == '(' && inFixa[strlen(inFixa) - 1] == ')') {
-        inFixa[strlen(inFixa) - 1] = '\0'; // Corrige a conversão de char
+        inFixa[strlen(inFixa) - 1] = '\0'; 
         return inFixa + 1;
     }
     return inFixa;

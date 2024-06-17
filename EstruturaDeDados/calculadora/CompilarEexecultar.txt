@@ -1,0 +1,4 @@
+linux-gcc-x64
+
+gcc calculadora.c main.c -o calculadora -lm
+./calculadora
